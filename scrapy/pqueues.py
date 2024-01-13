@@ -137,9 +137,10 @@ class DownloaderInterface:
 
     def _active_downloads(self, slot):
         """Return a number of requests in a Downloader for a given slot"""
-        if not any(slot == key.split("@")[-1] for key in self.downloader.slots):
+        tmp_downloader_slots = {key.replace("zyte-api@", ""): value for key, value in self.downloader.slots.items()}
+        if slot not in tmp_downloader_slots:
             return 0
-        return len(self.downloader.slots[slot].active)
+        return len(tmp_downloader_slots[slot].active)
 
 
 class DownloaderAwarePriorityQueue:
